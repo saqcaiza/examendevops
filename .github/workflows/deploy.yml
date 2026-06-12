@@ -3,19 +3,18 @@ name: Build and Publish to GHCR
 on:
   push:
     branches:
-      - main
+      - main  # Se activa automáticamente al hacer push a la rama principal
 
 env:
   REGISTRY: ghcr.io
-  # Cambia 'TU_USUARIO_GITHUB' por tu usuario real en minúsculas
-  IMAGE_NAME: tu_usuario_github/flask-devops-app
+  IMAGE_NAME: saqcaiza/flask-devops-app  # Tu usuario de GitHub y el nombre que tendrá tu imagen
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      packages: write  # Permiso obligatorio para subir imágenes a GHCR
 
     steps:
       - name: Checkout repository
@@ -26,7 +25,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }} # Token automático de GitHub
 
       - name: Extract metadata (tags, labels)
         id: meta

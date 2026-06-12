@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # Servidor de Base de Datos
   db:
     image: postgres:15-alpine
     container_name: postgres_db
@@ -13,13 +14,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  # Tu aplicación de Flask
   flask_app:
     build: ./app
     container_name: flask_app
     ports:
       - "5000:5000"
     environment:
-      - APP_NAME=Flask de Producción
+      - APP_NAME=Flask de Desarrollo
       - APP_VERSION=1.0.0
       - DB_HOST=db
       - DB_NAME=mi_base_datos
@@ -28,14 +30,15 @@ services:
     depends_on:
       - db
 
+  # Herramienta pgAdmin para administrar la Base de Datos desde el navegador
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin_container
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Correo para iniciar sesión
+      PGADMIN_DEFAULT_PASSWORD: admin        # Contraseña para iniciar sesión
     ports:
-      - "8080:80"
+      - "8080:80"                             # Acceso en http://localhost:8080
     depends_on:
       - db
 
